@@ -6,7 +6,11 @@ OBJ2HEX=/usr/bin/avr-objcopy
 AVRDUDE=/usr/local/bin/avrdude
 
 none :
-	@echo "Usage: make install-[target]\nTarget must be the name of a program, without the extension."
+	@echo "Usage:"
+	@echo "make install-[TARGET] : Uploads TARGET. TARGET must be the name of a program \n\twithout the .hex/.o/.c extension.\n"
+	@echo "make noreset-[TARGET] : Uploads TARGET without resetting the mcu. TARGET must\n\tbe the name of a program without the .hex/.o/.c extension.\n"
+	@echo "make clock-1mhz : Sets attiny85's clock source to the internal 1 mhz clock.\n"
+	@echo "make clock-8mhz : Sets attiny85's clock source to the internal 8 mhz clock.\n"
 
 install-% : %.hex
 	sudo gpio -g mode 22 out
@@ -23,13 +27,13 @@ noreset-% : %.hex
 %.o : %.c
 	$(CC) $(CFLAGS) $< -o $@
 
-fuse-1mhz :
+clock-1mhz :
 	sudo gpio -g mode 22 out
 	sudo gpio -g write 22 0
 	sudo $(AVRDUDE) -p $(AVRDUDEMCU) -P /dev/spidev0.0 -c linuxspi -b 10000 -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
 	sudo gpio -g write 22 1
 
-fuse-8mhz :
+clock-8mhz :
 	sudo gpio -g mode 22 out
 	sudo gpio -g write 22 0
 	sudo $(AVRDUDE) -p $(AVRDUDEMCU) -P /dev/spidev0.0 -c linuxspi -b 10000 -U lfuse:w:0xe2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
