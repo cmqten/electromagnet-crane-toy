@@ -27,7 +27,7 @@
  * 
  * Created 2017-07-24
  * By Carl Marquez
- * Modified 2017-07-24
+ * Modified 2017-07-26
  * By Carl Marquez
  */
  
@@ -90,7 +90,7 @@ void loop() {
     }
     ir.resume();
   }
-  if (millis() - timer > 150) {
-    PORTB &= (~0x1B); // Sets pins 0, 1, 3, 4 to low, AVR
-  }
+ 
+  // Sets pins 0, 1, 3, 4 to low, AVR
+  if (millis() - timer > 150) PORTB &= (~0x1B); 
 }
