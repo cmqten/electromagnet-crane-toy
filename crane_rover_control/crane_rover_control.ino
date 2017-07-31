@@ -26,7 +26,7 @@
  *
  * Created 2017-07-24
  * By Carl Marquez
- * Modified 2017-07-26
+ * Modified 2017-07-31
  * By Carl Marquez
  */
  
@@ -57,27 +57,27 @@ void setup() {
 void loop() {
   if (ir.decode(&results)) {
     switch (results.value) {
-      case MOVE_FORWARD:
+      case MOVE_FORWARD: // Both wheels turn forward
         PORTB &= (~0x1B); // Sets pins 0, 1, 3, 4 to low, AVR
         PORTB |= 0xA; // Sets pins 1, 3 to high, AVR
         timer = millis();
         break;
 
-      case MOVE_BACKWARD:
+      case MOVE_BACKWARD: // Both wheels turn backwards
         PORTB &= (~0x1B); // Sets pins 0, 1, 3, 4 to low, AVR
         PORTB |= 0x11; // Sets pins 0, 4 to high, AVR
         timer = millis();
         break;
 
-      case TURN_LEFT:
+      case TURN_LEFT: // Left wheel forward, right wheel back
         PORTB &= (~0x1B); // Sets pins 0, 1, 3, 4 to low, AVR
-        PORTB |= 0x12; // Sets pins 1, 4 to high, AVR
+        PORTB |= 0x9; // Sets pins 0, 3 to high, AVR
         timer = millis();
         break;
 
-      case TURN_RIGHT:
+      case TURN_RIGHT: // Right wheel forward, left wheel back
         PORTB &= (~0x1B); // Sets pins 0, 1, 3, 4 to low, AVR
-        PORTB |= 0x9; // Sets pins 0, 3 to high, AVR
+        PORTB |= 0x12; // Sets pins 1, 4 to high, AVR
         timer = millis();
         break;
 
