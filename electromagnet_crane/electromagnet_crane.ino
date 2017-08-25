@@ -62,8 +62,8 @@ void loop() {
   ps3Usb.Task();
   
   if (ps3.PS3Connected) {
-    // Moving the left joystick left/right controls pan, i.e.,
-    // rotation parallel to the horizontal plane.
+    // Moving the left joystick left/right controls pan, 
+    // i.e., rotation parallel to the horizontal plane.
     if (ps3.getAnalogHat(LeftHatX) < 50) {
       panAngle += (int8_t)(panAngle < 90);
     }
@@ -89,9 +89,9 @@ void loop() {
     }
     else reel.writeMicroseconds(1500);
 
-    // Holding the square button down activates the 
+    // Holding the square/L1 button down activates the 
     // electromagnet.
-    if (ps3.getButtonPress(SQUARE)) {
+    if (ps3.getButtonPress(SQUARE)||ps3.getButtonPress(L1)) {
       digitalWrite(MAGNET_PIN, HIGH);
     }
     else digitalWrite(MAGNET_PIN, LOW);
