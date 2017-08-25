@@ -15,43 +15,55 @@
  * - 2x MG995 180 degrees
  * - MG995 360 degrees
  * - PS3 controller
+ * - IRF540N MOSFET
  *
  * Created 2017-08-20
  * By Carl Marquez
- * Modified 2017-08-21
+ * Modified 2017-08-25
  * By Carl Marquez
  */
- 
 #include <PS3USB.h>
 #include <Servo.h>
+
+int8_t PAN_PIN = 3;
+int8_t TILT_PIN = 4;
+int8_t REEL_PIN = 5;
+int8_t MAGNET_PIN = 6;
 
 USB ps3Usb;
 PS3USB ps3(&ps3Usb);
 
 Servo pan;
 Servo tilt;
-Servo wire;
+Servo reel;
 int8_t panAngle; // Horizontal turn
 int8_t tiltAngle; // Vertical tilt, limited to 70 degrees
 
 void setup() {
   if (ps3Usb.Init() == -1) while (true);
 
-  pan.attach(3);
+  pinMode(MAGNET_PIN, OUTPUT);
+
+  // Initializes servos and moves crane to initial position;
+  // Facing directly forward and tilted 45 degrees from the
+  // horizontal plane.
+  pan.attach(PAN_PIN);
   panAngle = 0;
   pan.writeMicroseconds(map(panAngle, -90, 90, 650, 2300));
   
-  tilt.attach(4);
+  tilt.attach(TILT_PIN);
   tiltAngle = -45;
   tilt.writeMicroseconds(map(tiltAngle, -90, 90, 550, 2250));
 
-  wire.attach(5);
+  reel.attach(REEL_PIN);
 }
 
 void loop() {
   ps3Usb.Task();
+  
   if (ps3.PS3Connected) {
-    // Moving the joystick left / right controls pan
+    // Moving the left joystick left/right controls pan, i.e.,
+    // rotation parallel to the horizontal plane.
     if (ps3.getAnalogHat(LeftHatX) < 50) {
       panAngle += (int8_t)(panAngle < 90);
     }
@@ -59,7 +71,8 @@ void loop() {
       panAngle -= (int8_t)(panAngle > -90);
     }
 
-    // Moving the joystick up / down controls tilt
+    // Moving the left joystick up/down controls tilt, i.e., 
+    // rotation perpendicular to the horizontal plane.
     if (ps3.getAnalogHat(LeftHatY) < 50) {
       tiltAngle += (int8_t)(tiltAngle < -20);
     }
@@ -67,17 +80,24 @@ void loop() {
       tiltAngle -= (int8_t)(tiltAngle > -90);
     }
 
-    // Pressing up / down reels the wire out / in
+    // Pressing up/down reels the wire out/in.
     if (ps3.getButtonPress(UP)) {
-      wire.writeMicroseconds(1000);
+      reel.writeMicroseconds(1000);
     }
     else if (ps3.getButtonPress(DOWN)) {
-      wire.writeMicroseconds(2000);
+      reel.writeMicroseconds(2000);
     }
-    else wire.writeMicroseconds(1500);
+    else reel.writeMicroseconds(1500);
+
+    // Holding the square button down activates the 
+    // electromagnet.
+    if (ps3.getButtonPress(SQUARE)) {
+      digitalWrite(MAGNET_PIN, HIGH);
+    }
+    else digitalWrite(MAGNET_PIN, LOW);
     
     pan.writeMicroseconds(map(panAngle,-90,90,650,2300));
     tilt.writeMicroseconds(map(tiltAngle,-90,90,550,2200));
   }
-  _delay_ms(20);
+  delay(20);
 }
