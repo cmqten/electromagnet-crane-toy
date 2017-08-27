@@ -23,7 +23,7 @@
  * It stays activated until L1 or R1 are pressed again, or 
  * if the electromagnet times out, i.e., no user input has
  * been received for a certain amount of time, to prevent
- * overheating in case the user left the electromagnet 
+ * overheating in case the user leaves the electromagnet 
  * activated by accident. While in toggle mode, hold/release 
  * has no effect.
  * 
@@ -37,18 +37,28 @@
  * - USB Host Shield 2.0 
  * https://github.com/felis/USB_Host_Shield_2.0
  *
- * Components:
+ * General components:
  * - Arduino Uno
  * - USB Host Shield
+ * - PS3 controller
+ * - Arduino Uno power supply
+ * - Jumper wires
+ * 
+ * Crane components:
  * - 2x MG995 180 degrees
  * - MG995 360 degrees
  * - 3x 16V 470uF electrolytic capacitors
- * - PS3 controller
- * - IRF520N MOSFET
- * - Arduino Uno power supply
  * - Servo power supply
+ * - Rope
+ * - M3 standoffs/nuts
+ * - Servo horns
+ * - Servo brackets
+ * 
+ * Electromagnet components:
+ * - Iron core
+ * - Magnet wire
+ * - IRF520N MOSFET
  * - Electromagnet power supply
- * - Jumper wires
  *
  * Created 2017-08-20
  * By Carl Marquez
