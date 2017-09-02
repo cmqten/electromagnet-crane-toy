@@ -62,11 +62,18 @@
  *
  * Created 2017-08-20
  * By Carl Marquez
- * Modified 2017-08-27
+ * Modified 2017-09-01
  * By Carl Marquez
  */
+#include <PS3BT.h>
 #include <PS3USB.h>
 #include <Servo.h>
+#include <usbhub.h>
+
+// Define PS3_BTD if bluetooth is going to be used to connect
+// to the PS3 controller. Comment the #define line out if USB
+// is going to be used.
+// #define PS3_BTD
 
 int8_t PAN_PIN = 3;
 int8_t TILT_PIN = 4;
@@ -76,7 +83,16 @@ int8_t HOLD_RELEASE = 0;
 int8_t TOGGLE = 1;
 
 USB ps3Usb;
+
+#ifdef PS3_BTD
+BTD ps3Btd(&ps3Usb);
+// Second to seventh arguments are the bluetooth's MAC 
+// address. Replace accordingly.
+PS3BT ps3(&ps3Btd, 0x00, 0x1A, 0x7D, 0xDA, 0x71, 0x0C);
+
+#else
 PS3USB ps3(&ps3Usb);
+#endif
 
 Servo pan; // Rotation perpendicular to horizontal plane
 Servo tilt; // Rotation parallel to horizontal plane
@@ -84,7 +100,7 @@ Servo reel; // Reels wire in/out
 int8_t panAngle; // Horizontal turn
 int8_t tiltAngle; // Vertical tilt, limited to 70 degrees
 int8_t magnetMode; // Hold/release or toggle mode
-long timeout; // Last input time, for calculating timeout
+unsigned long timeout; // Last input time, for magnet timeout
 
 void setup() {
   if (ps3Usb.Init() == -1) while (true);
