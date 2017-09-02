@@ -46,6 +46,9 @@ This toy crane has three main components: crane, electromagnet, and microcontrol
 - PS3 controller
 - Power supply (This project uses power from the USB cable)
 
+## Schematics
+<img src=./images/schematics.png/>
+
 ## Images
 <img src=./images/crane_left.jpg width=600/>
 
