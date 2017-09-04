@@ -18,7 +18,7 @@ This toy crane has three main components: crane, electromagnet, and microcontrol
 - Wood glue
 - Nails
 - M3 screws/nuts
-- M3 standoffs 
+- M3 standoffs
 - Servo horns for mounting and attaching servos together
 - Servo brackets for mounting and attaching servos together
 - Rope for reeling the electromagnet in/out
@@ -47,7 +47,7 @@ This toy crane has three main components: crane, electromagnet, and microcontrol
 - Power supply (This project uses power from the USB cable)
 
 ## Schematics
-<img src=./images/schematics.png/>
+<img src=./schematics/schematics.png/>
 
 ## Images
 <img src=./images/crane_left.jpg width=600/>
@@ -55,5 +55,3 @@ This toy crane has three main components: crane, electromagnet, and microcontrol
 <img src=./images/crane_right.jpg width=600/>
 
 <img src=./images/controller.jpg width=600/>
-
-
